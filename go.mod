@@ -1,6 +1,6 @@
 module github.com/simonjcarr/sp-monitor/spmon-module-cpu
 
-go 1.21
+go 1.17
 
 require github.com/shirou/gopsutil v3.21.11+incompatible
 
