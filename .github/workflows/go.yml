@@ -39,9 +39,11 @@ jobs:
           GOOSARCH=${{matrix.goosarch}}
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
-          if [ "$GOOS" = "windows" ]; then
+          if [ $GOOS = "windows" ]; then
+            echo "Building for Windows"
             BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH.exe
           else
+            echo "Building for $GOOS - not windows"
             BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
           fi
           BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
@@ -58,7 +60,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: ".github/RELEASE-TEMPLATE.md"
-          draft: true
+          draft: false
           files: ${{env.BINARY_NAME}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
