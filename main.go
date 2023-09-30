@@ -23,11 +23,13 @@ func runCommand() ([]byte, error) {
 
 	// Create a map to hold the CPU usage percentages
 	percentages := make(map[string]float64)
+	var total float64
 	for idx, percent := range percentage {
 			// Add the CPU usage percentage for each core to the map
 			percentages[fmt.Sprintf("cpu-%d", idx)] = percent
+			total += percent
 	}
-
+	percentages["avg"] = total / float64(len(percentage))
 	// Add the CPU usage percentages to the data map
 	data["data"] = []map[string]float64{percentages}
 
@@ -36,6 +38,7 @@ func runCommand() ([]byte, error) {
 	if err != nil {
 			return nil, err
 	}
+	
 
 	return jsonData, nil
 }
@@ -44,9 +47,9 @@ func sendJSONData(conn net.Conn, jsonData []byte) error {
 	// Send the JSON data over UDP
 	_, err := conn.Write(jsonData)
 	if err != nil {
-			return err
+		return err
 	}
-
+	
 	return nil
 }
 
@@ -78,7 +81,8 @@ func main() {
 	// Create a UDP connection to the remote server
 	conn, err := net.Dial("udp", fmt.Sprintf("%s:%d", *serverHost, *serverPort))
 	if err != nil {
-			log.Fatalf("Error creating UDP connection: %v", err)
+		fmt.Println("error dial")
+		log.Fatalf("Error creating UDP connection: %v", err)
 	}
 	defer conn.Close()
 
