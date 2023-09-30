@@ -39,6 +39,11 @@ jobs:
           GOOSARCH=${{matrix.goosarch}}
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
+          if [ "$GOOS" = "windows" ]; then
+            BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH.exe
+          else
+            BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
+          fi
           BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
           echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
           echo "GOOS=$GOOS" >> $GITHUB_ENV
