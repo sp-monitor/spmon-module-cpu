@@ -19,7 +19,15 @@ jobs:
       matrix:
         # List of GOOS and GOARCH pairs from `go tool dist list`
         goosarch:
-          - 'aix/ppc64'
+          - 'linux/amd64'
+          - 'linux/arm'
+          - 'linux/arm64'
+          - 'darwin/amd32'
+          - 'windows/amd64'
+          - 'windows/amd32'
+          - 'freebsd/amd64'
+          - 'freebsd/amd32'
+          
           # etc
     steps:
       - name: Checkout code
